@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "playwright-test-server": {
+      "command": "node",
+      "args": ["C:\\Users\\Jean001\\IdeaProjects\\TypescriptPlaywright\\config\\mcp-server.js"],
+      "env": {
+        "PROJECT_PATH": "C:\\Users\\Jean001\\IdeaProjects\\TypescriptPlaywright"
+      }
+    }
+  }
+}

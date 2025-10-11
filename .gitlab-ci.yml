@@ -1,0 +1,54 @@
+stages:
+  - test
+  - report
+
+variables:
+  NODE_VERSION: "18"
+
+# Cache node_modules for faster builds
+cache:
+  paths:
+    - node_modules/
+    - ~/.cache/ms-playwright/
+
+test:
+  stage: test
+  image: mcr.microsoft.com/playwright:v1.40.0-jammy
+  before_script:
+    - npm ci
+    - npx playwright install chromium
+  script:
+    - npm run test:chromium || true
+  after_script:
+    - npm run allure:generate || true
+    - node generate-pdf.js || true
+    - node package-report.js || true
+  artifacts:
+    when: always
+    name: "allure-report-${CI_COMMIT_SHORT_SHA}"
+    expire_in: 30 days
+    paths:
+      - allure-report/
+      - allure-results/
+      - allure-report-*.pdf
+      - allure-report-*.zip
+      - test-results/
+      - playwright-report/
+    reports:
+      junit: test-results/junit.xml
+
+# Optional: Deploy to GitLab Pages
+pages:
+  stage: report
+  dependencies:
+    - test
+  script:
+    - mkdir -p public
+    - cp -r allure-report/* public/
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
+    - master
+

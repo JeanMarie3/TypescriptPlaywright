@@ -10,7 +10,9 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: './tests',
+  testDir: '../tests',
+  /* Ignore test files in tests-examples folder */
+  testIgnore: '**/tests-examples/**',
   /* Maximum time one test can run for. */
   timeout: 30 * 1000,
   expect: {
@@ -29,16 +31,42 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [
+    // ['html'], // Disabled - interferes with custom report launching
+    ['allure-playwright', {
+      outputFolder: 'allure-results',
+      detail: true,
+      suiteTitle: true,
+    }],
+    ['monocart-reporter', {
+      name: 'Mochawesome Report',
+      outputFile: '../reports/mochawesome/index.html',
+      coverage: {
+        enabled: false
+      }
+    }],
+    ['json', {
+      outputFile: '../mochawesome-report/mochawesome.json'
+    }],
+    ['junit', {
+      outputFile: '../mochawesome-report/junit.xml'
+    }]
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
     /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://localhost:3000',
+    baseURL: 'https://dev.educatifu.com',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+
+    /* Take screenshot on every test - both pass and fail */
+    screenshot: 'on',
+
+    /* Record video for failed tests */
+    video: 'retain-on-failure',
   },
 
   /* Configure projects for major browsers */

@@ -1,4 +1,60 @@
+# Dependencies
 node_modules/
+
+# Test Results and Reports
 /test-results/
 /playwright-report/
 /playwright/.cache/
+/allure-results/
+/allure-report/
+/mochawesome-report/
+/reports/*.pdf
+/reports/*.html
+/reports/*.zip
+/reports/mochawesome/
+
+# Custom Reports
+custom-report/
+custom-report.html
+custom-report.pdf
+custom-report-*.pdf
+custom-report-*.html
+
+# Screenshots and Videos
+screenshots/
+videos/
+traces/
+
+# IDE and Editor Files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS Files
+Thumbs.db
+desktop.ini
+
+# Environment Files
+.env
+.env.local
+.env.*.local
+
+# Build Files
+dist/
+build/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Coverage Reports
+coverage/
+.nyc_output/
+
+# Temporary Files
+*.tmp
+*.temp
+.cache/

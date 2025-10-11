@@ -1,0 +1,105 @@
+trigger:
+  branches:
+    include:
+      - main
+      - master
+      - develop
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  nodeVersion: '18.x'
+
+stages:
+  - stage: Test
+    displayName: 'Run Playwright Tests'
+    jobs:
+      - job: TestJob
+        displayName: 'Execute Tests and Generate Reports'
+        steps:
+          - task: NodeTool@0
+            displayName: 'Install Node.js'
+            inputs:
+              versionSpec: $(nodeVersion)
+
+          - script: |
+              npm ci
+            displayName: 'Install npm dependencies'
+
+          - script: |
+              npx playwright install --with-deps chromium
+            displayName: 'Install Playwright browsers'
+
+          - script: |
+              npm run test:chromium
+            displayName: 'Run Playwright tests'
+            continueOnError: true
+
+          - script: |
+              npm run allure:generate
+            displayName: 'Generate Allure Report'
+            condition: always()
+
+          - script: |
+              node generate-pdf.js
+            displayName: 'Generate PDF Report'
+            condition: always()
+            continueOnError: true
+
+          - script: |
+              node package-report.js
+            displayName: 'Package Allure Report'
+            condition: always()
+
+          - task: PublishTestResults@2
+            displayName: 'Publish Test Results'
+            condition: always()
+            inputs:
+              testResultsFormat: 'JUnit'
+              testResultsFiles: '**/test-results/**/*.xml'
+              mergeTestResults: true
+
+          - task: PublishBuildArtifacts@1
+            displayName: 'Upload Allure HTML Report'
+            condition: always()
+            inputs:
+              PathtoPublish: 'allure-report'
+              ArtifactName: 'allure-report-html'
+              publishLocation: 'Container'
+
+          - task: PublishBuildArtifacts@1
+            displayName: 'Upload Allure PDF Report'
+            condition: always()
+            inputs:
+              PathtoPublish: 'allure-report'
+              ArtifactName: 'allure-report-pdf'
+              publishLocation: 'Container'
+              includeRootFolder: false
+              contents: '**/*.pdf'
+
+          - task: PublishBuildArtifacts@1
+            displayName: 'Upload Packaged Report (ZIP)'
+            condition: always()
+            inputs:
+              PathtoPublish: '$(Build.SourcesDirectory)'
+              ArtifactName: 'allure-report-package'
+              publishLocation: 'Container'
+              contents: 'allure-report-*.zip'
+
+          - task: PublishBuildArtifacts@1
+            displayName: 'Upload Test Results'
+            condition: always()
+            inputs:
+              PathtoPublish: 'allure-results'
+              ArtifactName: 'allure-results'
+              publishLocation: 'Container'
+
+          - task: PublishBuildArtifacts@1
+            displayName: 'Upload Screenshots & Videos'
+            condition: always()
+            inputs:
+              PathtoPublish: 'test-results'
+              ArtifactName: 'test-artifacts'
+              publishLocation: 'Container'
+
