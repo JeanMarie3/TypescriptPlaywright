@@ -29,7 +29,7 @@
     "// ==================== PLAYWRIGHT HTML REPORT ====================": "",
     "playwright:pdf": "node scripts/generate-playwright-pdf.js",
     "playwright:report:pdf": "npx playwright show-report --host 127.0.0.1 --port 9323 & timeout /t 5 & node scripts/generate-playwright-pdf.js",
-    "test:playwright:pdf": "npm run clean:results && npx playwright test --project=chromium --config=config/playwright.config.ts && npm run playwright:pdf",
+    "test:playwright:pdf": "npm run clean:results; npx playwright test --project=chromium --config=config/playwright.config.ts; npm run playwright:pdf",
 
     "// ==================== CUSTOM REPORTS ====================": "",
     "report:custom": "node scripts/generate-custom-report.js",
