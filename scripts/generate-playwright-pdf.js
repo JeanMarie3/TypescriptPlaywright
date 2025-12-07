@@ -5,7 +5,7 @@
  * Converts the default Playwright HTML report to a PDF document
  */
 
-const puppeteer = require('puppeteer');
+const { chromium } = require('playwright');
 const path = require('path');
 const fs = require('fs');
 
@@ -35,7 +35,7 @@ if (!fs.existsSync(REPORT_HTML)) {
     }
 
     console.log('🌐 Launching browser...');
-    const browser = await puppeteer.launch({
+    const browser = await chromium.launch({
       headless: true,
       args: [
         '--no-sandbox',
@@ -45,13 +45,15 @@ if (!fs.existsSync(REPORT_HTML)) {
       ]
     });
 
-    const page = await browser.newPage();
-    await page.setViewport({ width: 1920, height: 1080 });
+    const context = await browser.newContext({
+      viewport: { width: 1920, height: 1080 }
+    });
+    const page = await context.newPage();
 
     console.log('📄 Loading Playwright report...');
     const fileUrl = `file:///${REPORT_HTML.replace(/\\/g, '/')}`;
     await page.goto(fileUrl, {
-      waitUntil: 'networkidle0',
+      waitUntil: 'networkidle',
       timeout: 60000
     });
 

@@ -32,7 +32,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    // ['html'], // Disabled - interferes with custom report launching
+    ['html'], // Enabled for PDF generation
     ['allure-playwright', {
       outputFolder: 'allure-results',
       detail: true,
