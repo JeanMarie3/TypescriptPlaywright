@@ -53,8 +53,13 @@ if (!fs.existsSync(REPORT_HTML)) {
     console.log('📄 Loading Playwright report...');
     const fileUrl = `file:///${REPORT_HTML.replace(/\\/g, '/')}`;
     await page.goto(fileUrl, {
-      waitUntil: 'networkidle',
+      waitUntil: 'load',
       timeout: 60000
+    });
+    
+    // Additional wait for any dynamic content
+    await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {
+      console.log('⚠️  Proceeding without waiting for network idle');
     });
 
     console.log('⏳ Waiting for report to fully render...');
