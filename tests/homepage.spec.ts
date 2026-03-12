@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../pages';
 
-test.describe('Homepage Test Suite', () => {
+test.describe('S001: Homepage Test Suite', () => {
   let homePage: HomePage;
 
   test.beforeEach(async ({ page }) => {

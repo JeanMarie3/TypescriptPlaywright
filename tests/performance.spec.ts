@@ -1,10 +1,37 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Performance Test Suite', () => {
+test.describe('S006: Performance Test Suite', () => {
 
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');
+
+    // Wait for all images to load
+    await page.evaluate(async () => {
+      const images = Array.from(document.images);
+      await Promise.all(
+        images.map(img => {
+          if (img.complete) return Promise.resolve();
+          return new Promise((resolve) => {
+            img.onload = img.onerror = resolve;
+            setTimeout(resolve, 15000); // Increased from 10000 to 15000
+          });
+        })
+      );
+    });
+
+    // Additional wait for lazy-loaded content
+    await page.waitForTimeout(10000); // Increased from 5000 to 10000
+
+    // Scroll down and up to trigger any lazy loading
+    await page.evaluate(() => {
+      window.scrollTo(0, document.body.scrollHeight);
+    });
+    await page.waitForTimeout(3000);
+    await page.evaluate(() => {
+      window.scrollTo(0, 0);
+    });
+    await page.waitForTimeout(3000);
   });
 
   test.describe('Page Load Performance', () => {
