@@ -33,17 +33,17 @@ export default defineConfig({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ['html'], // Disabled - interferes with custom report launching
+    ['allure-playwright', {
+      outputFolder: 'allure-results',
+      detail: true,
+      suiteTitle: true,
+    }],
     ['json', {
-      outputFile: '../playwright-report/resultsCustomized.json'
+      outputFile: '../mochawesome-report/mochawesome.json'
+    }],
+    ['junit', {
+      outputFile: '../mochawesome-report/junit.xml'
     }]
-    // ['allure-playwright', {
-    //   outputFolder: 'allure-results',
-    //   detail: true,
-    //   suiteTitle: true,
-    // }],
-    // ['junit', {
-    //   outputFile: '../mochawesome-report/junit.xml'
-    // }]
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
