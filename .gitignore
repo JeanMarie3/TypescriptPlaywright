@@ -9,7 +9,7 @@ node_modules/
 /allure-report/
 /mochawesome-report/
 /reports/
-/docs
+/docs/
 
 # Custom Reports
 custom-report/
