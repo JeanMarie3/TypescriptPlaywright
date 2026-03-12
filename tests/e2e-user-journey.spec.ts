@@ -1,12 +1,39 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('E2E User Journey Test Suite', () => {
+test.describe('S004: E2E User Journey Test Suite', () => {
 
   test.describe('Complete User Flows', () => {
     test('TC0017: Complete user journey: Browse → Learn → Contact', async ({ page }) => {
       // Step 1: Arrive at homepage
       await page.goto('/');
       await page.waitForLoadState('networkidle');
+
+      // Wait for all images to load
+      await page.evaluate(async () => {
+        const images = Array.from(document.images);
+        await Promise.all(
+          images.map(img => {
+            if (img.complete) return Promise.resolve();
+            return new Promise((resolve) => {
+              img.onload = img.onerror = resolve;
+              setTimeout(resolve, 15000); // Increased from 10000 to 15000
+            });
+          })
+        );
+      });
+
+      // Additional wait for lazy-loaded content
+      await page.waitForTimeout(10000); // Increased from 5000 to 10000
+
+      // Scroll down and up to trigger any lazy loading
+      await page.evaluate(() => {
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+      await page.waitForTimeout(3000);
+      await page.evaluate(() => {
+        window.scrollTo(0, 0);
+      });
+      await page.waitForTimeout(3000);
 
       // Verify user sees the main value proposition
       await expect(page.getByRole('heading', { name: 'Building better' })).toBeVisible();
@@ -61,6 +88,33 @@ test.describe('E2E User Journey Test Suite', () => {
       await page.goto('/');
       await page.waitForLoadState('networkidle');
 
+      // Wait for all images to load
+      await page.evaluate(async () => {
+        const images = Array.from(document.images);
+        await Promise.all(
+          images.map(img => {
+            if (img.complete) return Promise.resolve();
+            return new Promise((resolve) => {
+              img.onload = img.onerror = resolve;
+              setTimeout(resolve, 15000); // Increased from 10000 to 15000
+            });
+          })
+        );
+      });
+
+      // Additional wait for lazy-loaded content
+      await page.waitForTimeout(10000); // Increased from 5000 to 10000
+
+      // Scroll down and up to trigger any lazy loading
+      await page.evaluate(() => {
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+      await page.waitForTimeout(3000);
+      await page.evaluate(() => {
+        window.scrollTo(0, 0);
+      });
+      await page.waitForTimeout(3000);
+
       // Explore different services
       const services = [
         'Application Development Services',
@@ -89,6 +143,33 @@ test.describe('E2E User Journey Test Suite', () => {
       await page.goto('/');
       await page.waitForLoadState('networkidle');
 
+      // Wait for all images to load
+      await page.evaluate(async () => {
+        const images = Array.from(document.images);
+        await Promise.all(
+          images.map(img => {
+            if (img.complete) return Promise.resolve();
+            return new Promise((resolve) => {
+              img.onload = img.onerror = resolve;
+              setTimeout(resolve, 15000); // Increased from 10000 to 15000
+            });
+          })
+        );
+      });
+
+      // Additional wait for lazy-loaded content
+      await page.waitForTimeout(10000); // Increased from 5000 to 10000
+
+      // Scroll down and up to trigger any lazy loading
+      await page.evaluate(() => {
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+      await page.waitForTimeout(3000);
+      await page.evaluate(() => {
+        window.scrollTo(0, 0);
+      });
+      await page.waitForTimeout(3000);
+
       // Navigate to Technologies page
       await page.getByRole('link', { name: 'Technologies' }).click();
       await page.waitForLoadState('networkidle');
@@ -109,6 +190,33 @@ test.describe('E2E User Journey Test Suite', () => {
       await page.goto('/');
       await page.waitForLoadState('networkidle');
 
+      // Wait for all images to load
+      await page.evaluate(async () => {
+        const images = Array.from(document.images);
+        await Promise.all(
+          images.map(img => {
+            if (img.complete) return Promise.resolve();
+            return new Promise((resolve) => {
+              img.onload = img.onerror = resolve;
+              setTimeout(resolve, 15000); // Increased from 10000 to 15000
+            });
+          })
+        );
+      });
+
+      // Additional wait for lazy-loaded content
+      await page.waitForTimeout(10000); // Increased from 5000 to 10000
+
+      // Scroll down and up to trigger any lazy loading
+      await page.evaluate(() => {
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+      await page.waitForTimeout(3000);
+      await page.evaluate(() => {
+        window.scrollTo(0, 0);
+      });
+      await page.waitForTimeout(3000);
+
       // Navigate to Training page
       await page.getByRole('link', { name: 'Training' }).click();
       await page.waitForLoadState('networkidle');
@@ -126,6 +234,33 @@ test.describe('E2E User Journey Test Suite', () => {
     test('TC0021: Newsletter subscription journey', async ({ page }) => {
       await page.goto('/');
       await page.waitForLoadState('networkidle');
+
+      // Wait for all images to load
+      await page.evaluate(async () => {
+        const images = Array.from(document.images);
+        await Promise.all(
+          images.map(img => {
+            if (img.complete) return Promise.resolve();
+            return new Promise((resolve) => {
+              img.onload = img.onerror = resolve;
+              setTimeout(resolve, 15000); // Increased from 10000 to 15000
+            });
+          })
+        );
+      });
+
+      // Additional wait for lazy-loaded content
+      await page.waitForTimeout(10000); // Increased from 5000 to 10000
+
+      // Scroll down and up to trigger any lazy loading
+      await page.evaluate(() => {
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+      await page.waitForTimeout(3000);
+      await page.evaluate(() => {
+        window.scrollTo(0, 0);
+      });
+      await page.waitForTimeout(3000);
 
       // Scroll to newsletter section
       await page.getByRole('heading', { name: 'Stay in Touch' }).scrollIntoViewIfNeeded();
@@ -157,6 +292,33 @@ test.describe('E2E User Journey Test Suite', () => {
       await page.goto('/');
       await page.waitForLoadState('networkidle');
 
+      // Wait for all images to load
+      await page.evaluate(async () => {
+        const images = Array.from(document.images);
+        await Promise.all(
+          images.map(img => {
+            if (img.complete) return Promise.resolve();
+            return new Promise((resolve) => {
+              img.onload = img.onerror = resolve;
+              setTimeout(resolve, 15000); // Increased from 10000 to 15000
+            });
+          })
+        );
+      });
+
+      // Additional wait for lazy-loaded content
+      await page.waitForTimeout(10000); // Increased from 5000 to 10000
+
+      // Scroll down and up to trigger any lazy loading
+      await page.evaluate(() => {
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+      await page.waitForTimeout(3000);
+      await page.evaluate(() => {
+        window.scrollTo(0, 0);
+      });
+      await page.waitForTimeout(3000);
+
       // Mobile user should see essential content
       await expect(page.getByRole('heading', { name: 'Building better' })).toBeVisible();
 
@@ -184,6 +346,33 @@ test.describe('E2E User Journey Test Suite', () => {
     test('TC0023: Search functionality journey', async ({ page }) => {
       await page.goto('/');
       await page.waitForLoadState('networkidle');
+
+      // Wait for all images to load
+      await page.evaluate(async () => {
+        const images = Array.from(document.images);
+        await Promise.all(
+          images.map(img => {
+            if (img.complete) return Promise.resolve();
+            return new Promise((resolve) => {
+              img.onload = img.onerror = resolve;
+              setTimeout(resolve, 15000); // Increased from 10000 to 15000
+            });
+          })
+        );
+      });
+
+      // Additional wait for lazy-loaded content
+      await page.waitForTimeout(10000); // Increased from 5000 to 10000
+
+      // Scroll down and up to trigger any lazy loading
+      await page.evaluate(() => {
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+      await page.waitForTimeout(3000);
+      await page.evaluate(() => {
+        window.scrollTo(0, 0);
+      });
+      await page.waitForTimeout(3000);
 
       const searchInput = page.getByRole('textbox', { name: 'Search' });
       await searchInput.click();

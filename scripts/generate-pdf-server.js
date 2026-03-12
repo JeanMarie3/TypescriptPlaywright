@@ -46,7 +46,7 @@ const { spawn } = require('child_process');
 
     // Wait for charts and initial content - significantly increased
     console.log('⏳ Waiting for charts and widgets to render...');
-    await page.waitForTimeout(15000);
+    await page.waitForTimeout(25000); // Increased from 15000 to 25000
 
     // Function to scroll through page content with more thorough scrolling
     const scrollPage = async () => {
@@ -112,21 +112,21 @@ const { spawn } = require('child_process');
 
       // Wait for section-specific content to load
       console.log('   ⏳ Initial content load...');
-      await page.waitForTimeout(8000);
+      await page.waitForTimeout(12000); // Increased from 8000 to 12000
 
       // Wait for loading indicators to disappear
       await waitForLoadingComplete();
 
       // Additional wait for JavaScript to render everything
       console.log('   ⏳ Waiting for full render...');
-      await page.waitForTimeout(5000);
+      await page.waitForTimeout(8000); // Increased from 5000 to 8000
 
       // Scroll through the section to trigger lazy loading
       await scrollPage();
 
       // Wait after scrolling for any lazy-loaded content to render
       console.log('   ⏳ Final rendering wait...');
-      await page.waitForTimeout(5000);
+      await page.waitForTimeout(10000); // Increased from 5000 to 10000
 
       // Try to expand any collapsible sections
       try {
@@ -181,11 +181,11 @@ const { spawn } = require('child_process');
       });
 
       await page.waitForSelector('.app', { timeout: 20000 });
-      await page.waitForTimeout(8000);
+      await page.waitForTimeout(12000); // Increased from 8000 to 12000
       await waitForLoadingComplete();
-      await page.waitForTimeout(5000);
+      await page.waitForTimeout(8000); // Increased from 5000 to 8000
       await scrollPage();
-      await page.waitForTimeout(5000);
+      await page.waitForTimeout(10000); // Increased from 5000 to 10000
 
       // Expand any collapsible sections
       try {
@@ -193,7 +193,7 @@ const { spawn } = require('child_process');
           const expandButtons = document.querySelectorAll('[aria-expanded="false"]');
           expandButtons.forEach(btn => btn.click());
         });
-        await page.waitForTimeout(2000);
+        await page.waitForTimeout(3000); // Increased from 2000 to 3000
       } catch (e) {
         // Ignore
       }

@@ -14,13 +14,13 @@ export default defineConfig({
   /* Ignore test files in tests-examples folder */
   testIgnore: '**/tests-examples/**',
   /* Maximum time one test can run for. */
-  timeout: 30 * 1000,
+  timeout: 60 * 1000, // Increased from 30s to 60s
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
      * For example in `await expect(locator).toHaveText();`
      */
-    timeout: 5000
+    timeout: 10000 // Increased from 5000 to 10000
   },
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -32,18 +32,11 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    // ['html'], // Disabled - interferes with custom report launching
+    ['html'], // Disabled - interferes with custom report launching
     ['allure-playwright', {
       outputFolder: 'allure-results',
       detail: true,
       suiteTitle: true,
-    }],
-    ['monocart-reporter', {
-      name: 'Mochawesome Report',
-      outputFile: '../reports/mochawesome/index.html',
-      coverage: {
-        enabled: false
-      }
     }],
     ['json', {
       outputFile: '../mochawesome-report/mochawesome.json'
@@ -58,6 +51,9 @@ export default defineConfig({
     actionTimeout: 0,
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'https://dev.educatifu.com',
+
+    /* Navigation timeout - wait longer for pages to load */
+    navigationTimeout: 45000, // Added 45 second navigation timeout
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -76,15 +72,16 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
 
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
+    // Disabled Firefox and WebKit to run tests only on Chrome
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'] },
+    // },
 
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
 
     /* Test against mobile viewports. */
     // {

@@ -8,10 +8,8 @@ node_modules/
 /allure-results/
 /allure-report/
 /mochawesome-report/
-/reports/*.pdf
-/reports/*.html
-/reports/*.zip
-/reports/mochawesome/
+/reports/
+/docs/
 
 # Custom Reports
 custom-report/
@@ -58,3 +56,6 @@ coverage/
 *.tmp
 *.temp
 .cache/
+
+# Temporary Allure PDF folder (contains embedded git repo)
+temp-allure-pdf/
