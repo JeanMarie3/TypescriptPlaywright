@@ -8,10 +8,7 @@ node_modules/
 /allure-results/
 /allure-report/
 /mochawesome-report/
-/reports/*.pdf
-/reports/*.html
-/reports/*.zip
-/reports/mochawesome/
+/reports/
 
 # Custom Reports
 custom-report/
