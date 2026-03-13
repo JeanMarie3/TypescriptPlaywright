@@ -34,7 +34,7 @@ export default defineConfig({
   reporter: [
     ['html'], // Disabled - interferes with custom report launching
     ['json', {
-      outputFile: '../playwright-report/resultsCustomized.json'
+      outputFile: 'playwright-report/resultsCustomized.json'
     }]
     // ['allure-playwright', {
     //   outputFolder: 'allure-results',

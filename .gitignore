@@ -56,6 +56,3 @@ coverage/
 *.tmp
 *.temp
 .cache/
-
-# Temporary Allure PDF folder (contains embedded git repo)
-temp-allure-pdf/

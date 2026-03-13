@@ -56,21 +56,21 @@ export class HomePage extends BasePage {
 
         // Initialize Header Elements
         this.logo = page.getByRole('img', { name: 'Logo' }).first();
-        this.navigation = page.locator('navigation');
+        this.navigation = page.locator('nav').first();
 
         // Initialize Navigation Links
-        this.homeLink = page.getByRole('link', { name: 'Home' });
-        this.technologiesLink = page.getByRole('link', { name: 'Technologies' });
-        this.trainingLink = page.getByRole('link', { name: 'Training' });
-        this.projectsLink = page.getByRole('link', { name: 'Projects' });
-        this.servicesLink = page.getByRole('link', { name: 'Services' });
-        this.contactUsLink = page.getByRole('link', { name: 'Contact Us' });
+        this.homeLink = page.locator('nav').getByRole('link', { name: 'Home' }).first();
+        this.technologiesLink = page.locator('nav').getByRole('link', { name: 'Technologies' }).first();
+        this.trainingLink = page.locator('nav').getByRole('link', { name: 'Training' }).first();
+        this.projectsLink = page.locator('nav').getByRole('link', { name: 'Projects' }).first();
+        this.servicesLink = page.locator('nav').getByRole('link', { name: 'Services' }).first();
+        this.contactUsLink = page.locator('nav').getByRole('link', { name: 'Contact Us' }).first();
 
         // Initialize Contact Information
-        this.locationText = page.getByText('Warsaw, Poland');
-        this.emailText = page.getByText('services@dev.educatifu.com');
-        this.phoneText = page.getByText('+48 728 495 231');
-        this.officeHoursText = page.getByText('Office Hours: 8:00 AM – 6:00 PM');
+        this.locationText = page.locator('li').filter({ hasText: 'Warsaw, Poland' }).first();
+        this.emailText = page.locator('li').filter({ hasText: 'services@dev.educatifu.com' }).first();
+        this.phoneText = page.locator('li').filter({ hasText: '+48 728 495 231' }).first();
+        this.officeHoursText = page.locator('li').filter({ hasText: 'Office Hours: 8:00 AM' }).first();
 
         // Initialize Hero Section
         this.heroHeading = page.getByRole('heading', { name: 'Building better' });
